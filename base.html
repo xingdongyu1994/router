@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>路由</title>
+  </head>
+  <body>
+    <ul>
+      <li><a href="#/hei">turn hei</a></li> 
+      <li><a href="#/blue">turn blue</a></li> 
+      <li><a href="#/green">turn green</a></li> 
+    </ul>
+    <script>
+      // 路由 提供  初始化   router path 对页面的更新  updatepage
+      function Router() {
+        this.currenturl = "",
+        this.routerlist ={}
+      }
+      Router.prototype = {
+        router: function(path, callback) {
+           this.routerlist[path] = callback || function(){}
+        },
+        init: function (){
+          // window.addEventListener('load', this.updatepage, false)
+          console.log("fff方法",this)
+          window.addEventListener('hashchange',this.updatepage.bind(this), false)
+        },
+        updatepage:function () {
+           this.currenturl = location.hash.slice(1) || '/hei'
+           this.routerlist[this.currenturl]()
+        }
+      }
+      window.Router = new Router()
+      window.Router.init()
+      console.log("gggggggggggggggg")
+      var content = document.querySelector('body')
+      // change Page anything
+      function changeBgColor(color) {
+          content.style.backgroundColor = color
+      }
+      Router.router('/hei', function(){
+         changeBgColor('#000')
+      })
+      Router.router('/blue', function(){
+         changeBgColor('blue')
+      })
+    </script>
+  </body>
+</html>
